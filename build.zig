@@ -49,9 +49,12 @@ pub fn build(b: *std.build.Builder) !void {
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall.
     const mode = b.standardReleaseOptions();
 
-    const lib = b.addStaticLibrary("aoc-2022-zig", "src/main.zig");
-    lib.setBuildMode(mode);
-    lib.install();
+    const exe = b.addExecutable("aoc-2022", "src/main.zig");
+    exe.setBuildMode(mode);
+    exe.install();
+
+    const run_step = b.step("run", "Run the program");
+    run_step.dependOn(&exe.run().step);
 
     const test_step = b.step("test", "Run tests");
 
