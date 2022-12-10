@@ -128,7 +128,7 @@ const Context = struct {
 
 pub fn run(input: []const u8, comptime part: usize, a: Allocator) ![]u8 {
     var ctx = Context.init(part);
-    try helpers.foreachLine(input, Context, &ctx);
+    try helpers.foreachLine(input, &ctx, Context.handleLine);
 
     return try std.fmt.allocPrint(a, "{d}", .{ctx.finish()});
 }

@@ -79,7 +79,7 @@ fn Context(comptime part: usize) type {
 
 pub fn run(input: []const u8, comptime part: usize, a: Allocator) ![]u8 {
     var ctx = Context(part){};
-    try helpers.foreachLine(input, Context(part), &ctx);
+    try helpers.foreachLine(input, &ctx, Context(part).handleLine);
 
     return try std.fmt.allocPrint(a, "{d}", .{ctx.finish()});
 }

@@ -1,6 +1,6 @@
 const std = @import("std");
 
-const DAYS_IMPLEMENTED = 3;
+const DAYS_IMPLEMENTED = 4;
 
 const RenderArgs = struct {
     day: []const u8,

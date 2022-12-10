@@ -17,3 +17,8 @@ pub const dec03 = &[_]Expected{
     .{ .simple = "157", .full = "7766" },
     .{ .simple = "70", .full = "2415" },
 };
+
+pub const dec04 = &[_]Expected{
+    .{ .simple = "2", .full = "433" },
+    .{ .simple = "4", .full = "852" },
+};
