@@ -31,7 +31,7 @@ pub fn main() !void {
                         try all_days.run_day(a, day, part);
                     }
                     const elapsed = timer.read();
-                    std.debug.print("Day {d:2}p{d}: {d:8.3}μs/run ({d} runs)\n", .{
+                    std.debug.print("Day {d:0>2}p{d}: {d:8.3}μs/run ({d} runs)\n", .{
                         day,
                         part,
                         @intToFloat(f64, elapsed / RUNS) / 1000.0,
