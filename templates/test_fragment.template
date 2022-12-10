@@ -1,6 +1,6 @@
 
 test "{{day}} part {{part}} ({{kind}})" {
-    const input = @embedFile("input/{{daynum}}.{{kind}}.txt");
+    const input = all_input.{{day}}_{{kind}};
     const actual = try {{day}}.run(input, {{part}}, testing.allocator);
     defer testing.allocator.free(actual);
     try testing.expectEqualStrings(expected.{{day}}[{{part}} - 1].{{kind}}, actual);
