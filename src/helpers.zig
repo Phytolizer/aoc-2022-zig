@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub const RunError = error{} ||
+pub const RunError = error{NotImplemented} ||
     std.fmt.ParseIntError ||
     std.fmt.AllocPrintError;
 
