@@ -135,8 +135,15 @@ pub fn build(b: *std.build.Builder) !void {
     exe.setBuildMode(mode);
     exe.install();
 
+    const run_cmd = exe.run();
+    run_cmd.step.dependOn(b.getInstallStep());
+    if (b.args) |b_args| {
+        run_cmd.addArgs(b_args);
+    }
+    run_cmd.expected_exit_code = null;
+
     const run_step = b.step("run", "Run the program");
-    run_step.dependOn(&exe.run().step);
+    run_step.dependOn(&run_cmd.step);
 
     const test_step = b.step("test", "Run tests");
 

@@ -1,6 +1,6 @@
 const std = @import("std");
 const Allocator = std.mem.Allocator;
-const foreachLine = @import("helpers.zig").foreachLine;
+const helpers = @import("helpers.zig");
 
 fn Context(comptime part: usize) type {
     const BestArray = if (part == 1) [1]usize else [3]usize;
@@ -54,9 +54,13 @@ fn Context(comptime part: usize) type {
     };
 }
 
-pub fn run(input: []const u8, comptime part: usize, a: Allocator) ![]u8 {
-    var context = Context(part){};
-    try foreachLine(input, &context, Context(part).handleLine);
+pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError![]u8 {
+    return struct {
+        pub fn run(input: []const u8, a: Allocator) ![]u8 {
+            var context = Context(part){};
+            try helpers.foreachLine(input, &context, Context(part).handleLine);
 
-    return try std.fmt.allocPrint(a, "{d}", .{context.finish()});
+            return try std.fmt.allocPrint(a, "{d}", .{context.finish()});
+        }
+    }.run;
 }

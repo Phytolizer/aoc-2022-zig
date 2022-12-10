@@ -1,6 +1,10 @@
 const std = @import("std");
 
-pub fn foreachLine(input: []const u8, context: anytype, handler: anytype) !void {
+pub const RunError = error{} ||
+    std.fmt.ParseIntError ||
+    std.fmt.AllocPrintError;
+
+pub fn foreachLine(input: []const u8, context: anytype, handler: anytype) RunError!void {
     // check handler is a fn
     const ty = @typeInfo(@TypeOf(handler));
     switch (ty) {

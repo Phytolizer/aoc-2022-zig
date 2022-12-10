@@ -1,5 +1,11 @@
         {{daynum}} => {
-            inline for ([_]usize{ 1, 2 }) |part| {
-                _ = try {{day}}.run(all_input.{{day}}_full, part, a);
+            if (part) |p| {
+                const output = try {{day}}.runner(p)(all_input.{{day}}_full, a);
+                a.free(output);
+            } else {
+                inline for ([_]usize{ 1, 2 }) |p| {
+                    const output = try {{day}}.runner(p)(all_input.{{day}}_full, a);
+                    a.free(output);
+                }
             }
         },

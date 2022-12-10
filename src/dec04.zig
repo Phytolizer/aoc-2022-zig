@@ -50,9 +50,13 @@ const Context = struct {
     }
 };
 
-pub fn run(input: []const u8, comptime part: usize, a: Allocator) ![]u8 {
-    var context = Context.init(part);
-    try helpers.foreachLine(input, &context, Context.handleLine);
+pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError![]u8 {
+    return struct {
+        pub fn run(input: []const u8, a: Allocator) ![]u8 {
+            var context = Context.init(part);
+            try helpers.foreachLine(input, &context, Context.handleLine);
 
-    return try std.fmt.allocPrint(a, "{d}", .{context.finish()});
+            return try std.fmt.allocPrint(a, "{d}", .{context.finish()});
+        }
+    }.run;
 }

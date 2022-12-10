@@ -27,7 +27,7 @@ const Context = struct {
             'A', 'X' => .rock,
             'B', 'Y' => .paper,
             'C', 'Z' => .scissors,
-            else => return error.InvalidInput,
+            else => unreachable,
         };
     }
 
@@ -36,7 +36,7 @@ const Context = struct {
             'X' => .loss,
             'Y' => .draw,
             'Z' => .win,
-            else => return error.InvalidInput,
+            else => unreachable,
         };
     }
 
@@ -117,7 +117,7 @@ const Context = struct {
                 const player = determinePlay(opponent, result);
                 self.total += scoreGame(player, result);
             },
-            else => return error.InvalidPart,
+            else => unreachable,
         }
     }
 
@@ -126,9 +126,13 @@ const Context = struct {
     }
 };
 
-pub fn run(input: []const u8, comptime part: usize, a: Allocator) ![]u8 {
-    var ctx = Context.init(part);
-    try helpers.foreachLine(input, &ctx, Context.handleLine);
+pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError![]u8 {
+    return struct {
+        pub fn run(input: []const u8, a: Allocator) ![]u8 {
+            var ctx = Context.init(part);
+            try helpers.foreachLine(input, &ctx, Context.handleLine);
 
-    return try std.fmt.allocPrint(a, "{d}", .{ctx.finish()});
+            return try std.fmt.allocPrint(a, "{d}", .{ctx.finish()});
+        }
+    }.run;
 }
