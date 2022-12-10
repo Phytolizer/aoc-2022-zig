@@ -27,3 +27,8 @@ pub const dec05 = &[_]Expected{
     .{ .simple = "CMZ", .full = "QMBMJDFTD" },
     .{ .simple = "MCD", .full = "NBTVTJNFJ" },
 };
+
+pub const dec06 = &[_]Expected{
+    .{ .simple = "11", .full = "1080" },
+    .{ .simple = "26", .full = "3645" },
+};
