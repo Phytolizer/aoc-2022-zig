@@ -19,19 +19,31 @@ pub fn testCase(
 pub fn main() !void {
     var tests: usize = 0;
     var failures: usize = 0;
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const a = gpa.allocator();
+    var test_gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const a = test_gpa.allocator();
+    var internal_gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const internal_a = internal_gpa.allocator();
     inline for (days.dayModules) |dayModule, i| {
         inline for (days.parts) |part| {
             inline for (days.inputKinds) |inputKind| {
                 tests += 1;
+                const testDescription = try std.fmt.allocPrint(
+                    internal_a,
+                    "day {d:0>2}, part {d}, {s} input",
+                    .{ dayModule.dayNum, part, inputKind },
+                );
+                defer internal_a.free(testDescription);
                 testCase(dayModule, part, inputKind, days.inputs[i], a) catch {
-                    std.debug.print("Failed on day {d:0>2}, part {d}, {s} input\n", .{ i + 1, part, inputKind });
+                    std.debug.print("Failed on {s}\n", .{testDescription});
                     if (@errorReturnTrace()) |trace| {
                         trace.format("", .{}, std.io.getStdErr().writer()) catch unreachable;
                     }
                     failures += 1;
                 };
+                if (test_gpa.detectLeaks()) {
+                    std.debug.print("Leaked memory on {s}\n", .{testDescription});
+                    failures += 1;
+                }
             }
         }
     }
