@@ -3,7 +3,7 @@ const Allocator = std.mem.Allocator;
 const helpers = @import("helpers.zig");
 const Expected = @import("expected.zig").Expected;
 
-pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError![]u8 {
+pub fn runner(comptime part: usize) helpers.DayRunner {
     return struct {
         const history_len = if (part == 1) 4 else 14;
         pub fn run(input: []const u8, a: Allocator) ![]u8 {

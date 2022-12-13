@@ -1,8 +1,6 @@
 const std = @import("std");
 const helpers = @import("helpers.zig");
 
-const DayRunner = fn ([]const u8, std.mem.Allocator) helpers.RunError![]u8;
-
 const Day = struct {
     Module: type,
     dayNum: usize,
@@ -69,10 +67,10 @@ pub fn main() !void {
         },
         2 => {
             const day = try std.fmt.parseInt(u8, args[1], 10);
-            const runners: [2]*const DayRunner = findDay: {
+            const runners: [2]*const helpers.DayRunner = findDay: {
                 inline for (dayModules) |dayMod| {
                     if (dayMod.dayNum == day) {
-                        var runners: [2]*const DayRunner = undefined;
+                        var runners: [2]*const helpers.DayRunner = undefined;
                         inline for (parts) |part| {
                             runners[part - 1] = dayMod.Module.runner(part);
                         }

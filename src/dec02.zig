@@ -127,7 +127,7 @@ const Context = struct {
     }
 };
 
-pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError![]u8 {
+pub fn runner(comptime part: usize) helpers.DayRunner {
     return struct {
         pub fn run(input: []const u8, a: Allocator) ![]u8 {
             var ctx = Context.init(part);
