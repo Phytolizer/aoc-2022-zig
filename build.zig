@@ -20,7 +20,8 @@ pub fn build(b: *std.build.Builder) !void {
     run_step.dependOn(&run_cmd.step);
 
     const test_step = b.step("test", "Run tests");
-    const main_tests = b.addTest("src/main.zig");
+    const main_tests = b.addExecutable("main_tests", "src/test.zig");
     main_tests.setBuildMode(mode);
-    test_step.dependOn(&main_tests.step);
+    const run_tests = main_tests.run();
+    test_step.dependOn(&run_tests.step);
 }
