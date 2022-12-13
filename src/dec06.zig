@@ -1,6 +1,7 @@
 const std = @import("std");
 const Allocator = std.mem.Allocator;
 const helpers = @import("helpers.zig");
+const Expected = @import("expected.zig").Expected;
 
 pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError![]u8 {
     return struct {
@@ -38,3 +39,8 @@ pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError!
         }
     }.run;
 }
+
+pub const expected = [_]Expected{
+    .{ .simple = "11", .full = "1080" },
+    .{ .simple = "26", .full = "3645" },
+};

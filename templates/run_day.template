@@ -1,7 +1,0 @@
-const std = @import("std");
-const Allocator = std.mem.Allocator;
-
-pub const IMPLEMENTED_DAYS = {{implnum}};
-
-pub fn run_day(a: Allocator, day: usize, comptime part: ?usize) !void {
-    switch (day) {

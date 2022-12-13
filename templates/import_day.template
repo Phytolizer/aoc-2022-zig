@@ -1,1 +1,0 @@
-const {{day}} = @import("{{day}}.zig");

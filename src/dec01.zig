@@ -1,6 +1,7 @@
 const std = @import("std");
 const Allocator = std.mem.Allocator;
 const helpers = @import("helpers.zig");
+const Expected = @import("expected.zig").Expected;
 
 fn Context(comptime part: usize) type {
     const BestArray = if (part == 1) [1]usize else [3]usize;
@@ -64,3 +65,8 @@ pub fn runner(comptime part: usize) fn ([]const u8, Allocator) helpers.RunError!
         }
     }.run;
 }
+
+pub const expected = [_]Expected{
+    .{ .simple = "24000", .full = "69289" },
+    .{ .simple = "45000", .full = "205615" },
+};

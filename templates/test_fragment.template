@@ -1,7 +1,0 @@
-
-test "{{day}} part {{part}} ({{kind}})" {
-    const input = all_input.{{day}}_{{kind}};
-    const actual = try {{day}}.runner({{part}})(input, testing.allocator);
-    defer testing.allocator.free(actual);
-    try testing.expectEqualStrings(expected.{{day}}[{{part}} - 1].{{kind}}, actual);
-}
