@@ -75,7 +75,7 @@ const Context = struct {
 
     fn transpose_crates(self: *@This()) !void {
         for (self.raw_crates.items) |raw| {
-            for (raw.items) |crate, i| {
+            for (raw.items, 0..) |crate, i| {
                 if (i >= self.stacks.items.len) {
                     try self.stacks.append(std.ArrayList(u8).init(self.a));
                 }
@@ -109,7 +109,7 @@ const Context = struct {
             source.shrinkRetainingCapacity(source.items.len - move.num);
         }
         var buf = try self.a.alloc(u8, self.stacks.items.len);
-        for (self.stacks.items) |stack, i| {
+        for (self.stacks.items, 0..) |stack, i| {
             buf[i] = stack.items[stack.items.len - 1];
         }
         self.deinit();

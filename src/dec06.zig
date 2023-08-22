@@ -8,14 +8,14 @@ pub fn runner(comptime part: usize) helpers.DayRunner {
         const history_len = if (part == 1) 4 else 14;
         pub fn run(input: []const u8, a: Allocator) ![]u8 {
             var seen: [26]usize = undefined;
-            std.mem.set(usize, &seen, 0);
+            @memset(&seen, 0);
 
             var buf = try a.alloc(u8, history_len);
             defer a.free(buf);
 
             var rb = helpers.RingBuffer(u8).init(buf);
 
-            for (input) |c, i| {
+            for (input, 0..) |c, i| {
                 if (c == '\r' or c == '\n') {
                     break;
                 }

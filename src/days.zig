@@ -31,7 +31,7 @@ pub const parts = [_]usize{ 1, 2 };
 
 pub const inputs = getInputs: {
     var tmpInputs: [dayModules.len]Input = undefined;
-    for (dayModules) |dayModule, i| {
+    for (dayModules, 0..) |dayModule, i| {
         for (inputKinds) |inputKind| {
             const input = std.fmt.comptimePrint("input/{d:0>2}.{s}.txt", .{
                 dayModule.dayNum,

@@ -15,7 +15,7 @@ pub fn main() !void {
             const RUNS = 10;
             var run: usize = 0;
             while (run < RUNS) : (run += 1) {
-                inline for (days.dayModules) |day, i| {
+                inline for (days.dayModules, 0..) |day, i| {
                     inline for (days.parts) |part| {
                         const result = try day.Module.runner(part)(days.inputs[i].full, a);
                         a.free(result);
@@ -38,7 +38,7 @@ pub fn main() !void {
                 std.debug.print("Day {d} is not implemented yet\n", .{day});
                 std.process.exit(1);
             };
-            inline for (runners) |runner, i| {
+            inline for (runners, 0..) |runner, i| {
                 var timer = try std.time.Timer.start();
                 const RUNS = 10000;
                 var run: usize = 0;
@@ -50,7 +50,7 @@ pub fn main() !void {
                 std.debug.print("Day {d:0>2}p{d}: {d:8.3}μs/run ({d} runs)\n", .{
                     day,
                     i + 1,
-                    @intToFloat(f64, elapsed / RUNS) / 1000.0,
+                    @as(f64, @floatFromInt(elapsed / RUNS)) / 1000.0,
                     RUNS,
                 });
             }

@@ -19,13 +19,13 @@ pub fn foreachLine(input: []const u8, context: anytype, handler: anytype) RunErr
         .ErrorUnion => {},
         else => @compileError("handler must return an error union"),
     }
-    if (ty.Fn.args.len != 2) {
+    if (ty.Fn.params.len != 2) {
         @compileError("handler must take two arguments");
     }
-    if (ty.Fn.args[0].arg_type.? != @TypeOf(context)) {
+    if (ty.Fn.params[0].type.? != @TypeOf(context)) {
         @compileError("handler's first argument must be the same type as context");
     }
-    if (ty.Fn.args[1].arg_type.? != []const u8) {
+    if (ty.Fn.params[1].type.? != []const u8) {
         @compileError("handler's second argument must be []const u8");
     }
     var i: usize = 0;

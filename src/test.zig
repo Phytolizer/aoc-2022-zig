@@ -21,7 +21,7 @@ pub fn main() !void {
     var failures: usize = 0;
     var test_gpa = std.heap.GeneralPurposeAllocator(.{}){};
     const a = test_gpa.allocator();
-    inline for (days.dayModules) |dayModule, i| {
+    inline for (days.dayModules, 0..) |dayModule, i| {
         inline for (days.parts) |part| {
             inline for (days.inputKinds) |inputKind| {
                 tests += 1;

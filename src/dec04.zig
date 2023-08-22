@@ -39,7 +39,7 @@ const Context = struct {
         const range1 = Range{ .min = min1, .max = max1 };
         const range2 = Range{ .min = min2, .max = max2 };
 
-        self.total += @boolToInt(switch (self.part) {
+        self.total += @intFromBool(switch (self.part) {
             1 => range1.contains(range2) or range2.contains(range1),
             2 => range1.intersects(range2),
             else => unreachable,
