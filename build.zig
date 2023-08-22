@@ -33,8 +33,9 @@ pub fn build(b: *std.Build) !void {
     const run_tests = b.addRunArtifact(main_tests);
     test_step.dependOn(&run_tests.step);
 
-    const write_log_step = std.Build.Step.WriteFile.create(b);
-    write_log_step.addBytesToSource(builtin.zig_version_string, "zig-version.txt");
-    write_log_step.step.dependOn(&exe.step);
-    b.default_step = &write_log_step.step;
+    const write_log = std.Build.Step.WriteFile.create(b);
+    write_log.addBytesToSource(builtin.zig_version_string, "zig-version.txt");
+    write_log.step.dependOn(&exe.step);
+    const write_log_step = b.step("save-version", "Save the currently used Zig version");
+    write_log_step.dependOn(&write_log.step);
 }
