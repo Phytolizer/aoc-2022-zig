@@ -9,12 +9,11 @@ pub fn main() !void {
     std.log.info("Solving all implemented days...", .{});
 
     inline for (day.days, 1..) |d, num| {
-        var daybuf: ["input/real/day01.txt".len]u8 = undefined;
-        const daytext = std.fmt.bufPrint(&daybuf, "input/real/day{d:0>2}.txt", .{num}) catch unreachable;
-        // FIXME: The below code crashes the compiler. Why?
-        // const real_path = try std.fs.path.join(gpa, .{ "input", "real", "" });
-        // defer gpa.free(real_path);
-        const maybe_contents = std.fs.cwd().readFileAlloc(gpa, daytext, std.math.maxInt(usize));
+        var daybuf: ["day01.txt".len]u8 = undefined;
+        const daytext = std.fmt.bufPrint(&daybuf, "day{d:0>2}.txt", .{num}) catch unreachable;
+        const real_path = try std.fs.path.join(gpa, &.{ "input", "real", daytext });
+        defer gpa.free(real_path);
+        const maybe_contents = std.fs.cwd().readFileAlloc(gpa, real_path, std.math.maxInt(usize));
         if (maybe_contents) |contents| {
             defer gpa.free(contents);
             inline for (1..3) |part| {
@@ -23,7 +22,7 @@ pub fn main() !void {
                 gpa.free(text);
             }
         } else |e| {
-            std.log.err("Unable to read the input from '{s}'. Does it exist?", .{daytext});
+            std.log.err("Unable to read the input from '{s}'. Does it exist?", .{real_path});
             std.log.err("Error code: {s}", .{@errorName(e)});
         }
     }
