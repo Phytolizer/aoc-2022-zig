@@ -46,6 +46,7 @@ fn inner(
         for (stacks.items) |stack| stack.deinit();
         stacks.deinit();
     }
+    // FIXME: probably off by one in here somewhere
     const stack_count = stack_defs.items[stack_defs.items.len - 1].len / 4 + 1;
     for (0..stack_count) |_| try stacks.append(std.ArrayList(u8).init(a));
 
