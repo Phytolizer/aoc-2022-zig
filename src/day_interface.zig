@@ -10,3 +10,7 @@ pub const days = .{
 pub const examples = .{
     @embedFile("input/example/day01.txt"),
 };
+
+pub const example_solutions = .{
+    .{ "24000", "45000" },
+};
