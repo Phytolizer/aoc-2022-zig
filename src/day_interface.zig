@@ -8,6 +8,7 @@ pub const days = .{
     @import("solutions/day02.zig"),
     @import("solutions/day03.zig"),
     @import("solutions/day04.zig"),
+    @import("solutions/day05.zig"),
 };
 
 pub const examples = .{
@@ -15,6 +16,7 @@ pub const examples = .{
     @embedFile("input/example/day02.txt"),
     @embedFile("input/example/day03.txt"),
     @embedFile("input/example/day04.txt"),
+    @embedFile("input/example/day05.txt"),
 };
 
 pub const example_solutions = .{
@@ -22,4 +24,5 @@ pub const example_solutions = .{
     .{ "15", "12" },
     .{ "157", "70" },
     .{ "2", "4" },
+    .{ "CMZ", "MCD" },
 };
