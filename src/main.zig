@@ -6,13 +6,25 @@ pub fn main() !void {
     defer std.debug.assert(gpa_state.deinit() == .ok);
     const gpa = gpa_state.allocator();
 
-    std.log.info("Solving examples...", .{});
+    std.log.info("Solving all implemented days...", .{});
 
-    inline for (day.days, day.examples, 1..) |d, x, num| {
-        inline for (1..3) |part| {
-            const text = try d.Solver(part)(gpa, x);
-            std.log.info("Day {d:0>2}, part {d} = {s}", .{ num, part, text });
-            gpa.free(text);
+    inline for (day.days, 1..) |d, num| {
+        var daybuf: ["input/real/day01.txt".len]u8 = undefined;
+        const daytext = std.fmt.bufPrint(&daybuf, "input/real/day{d:0>2}.txt", .{num}) catch unreachable;
+        // FIXME: The below code crashes the compiler. Why?
+        // const real_path = try std.fs.path.join(gpa, .{ "input", "real", "" });
+        // defer gpa.free(real_path);
+        const maybe_contents = std.fs.cwd().readFileAlloc(gpa, daytext, std.math.maxInt(usize));
+        if (maybe_contents) |contents| {
+            defer gpa.free(contents);
+            inline for (1..3) |part| {
+                const text = try d.Solver(part)(gpa, contents);
+                std.log.info("Day {d:0>2}, part {d} = {s}", .{ num, part, text });
+                gpa.free(text);
+            }
+        } else |e| {
+            std.log.err("Unable to read the input from '{s}'. Does it exist?", .{daytext});
+            std.log.err("Error code: {s}", .{@errorName(e)});
         }
     }
 }
